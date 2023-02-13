@@ -29,12 +29,14 @@ time curl -XPUT 'http://root:@127.0.0.1:8000/v1/streaming_load' -H 'insert_sql: 
 
 [ec2-user@ip-172-31-21-28 ~]$ time curl -XPUT 'http://root:@127.0.0.1:8000/v1/streaming_load' -H 'insert_sql: insert into hits FILE_FORMAT = (type = TSV)' -F 'upload=@"./hits.tsv"'
 
-# {"id":"89383f95-33e5-4181-9019-bc347918d806","state":"SUCCESS","stats":{"rows":99997497,"bytes":74807831229},"error":null,"files":["hits.tsv"]}
-# real    6m3.734s
-# user    0m2.145s
-# sys     0m37.053s
+[ec2-user@ip-172-31-22-225 data]$ time curl -XPUT 'http://root:@127.0.0.1:8000/v1/streaming_load' -H 'insert_sql: insert into hits  FILE_FORMAT = (type = TSV)' -F 'upload=@"./hits.tsv"'
 
-## check data
+# {"id":"702fac1f-e326-4a87-a945-bc2a0d627531","state":"SUCCESS","stats":{"rows":99997497,"bytes":74807831229},"error":null,"files":["hits.tsv"]}
+# real    5m59.218s
+# user    0m1.805s
+# sys     0m33.284s
+
+## check data is correct
 curl 'http://default@localhost:8124/' --data-binary "select count() from hits"
 
 du -bcs _data
