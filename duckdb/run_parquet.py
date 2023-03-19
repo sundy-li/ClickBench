@@ -4,21 +4,20 @@ import timeit
 import psutil
 from pathlib import Path
 
-con = duckdb.connect(database="data.duckdb", read_only=False)
+con = duckdb.connect(database="parquet.duckdb", read_only=False)
 
 # print("Set up a view over the Parquet files")
 
 start = timeit.default_timer()
 
-# create table lineitem as select * from  read_parquet('../data/lineitem/*.parquet');
-# create table orders as select * from    read_parquet('../data/orders/*.parquet');
-# create table partsupp as select * from  read_parquet('../data/partsupp/*.parquet');
-# create table supplier as select * from  read_parquet('../data/supplier/*.parquet');
-# create table nation as select * from    read_parquet('../data/nation/*.parquet');
-# create table region as select * from    read_parquet('../data/region/*.parquet');
-# create table customer as select * from  read_parquet('../data/customer/*.parquet');
-# create table part as select * from      read_parquet('../data/part/*.parquet');
-
+lineitem=       duckdb.read_parquet('../data/lineitem/*.parquet')
+orders=         duckdb.read_parquet('../data/orders/*.parquet')
+partsupp=       duckdb.read_parquet('../data/partsupp/*.parquet')
+supplier=       duckdb.read_parquet('../data/supplier/*.parquet')
+nation=         duckdb.read_parquet('../data/nation/*.parquet')
+region=         duckdb.read_parquet('../data/region/*.parquet')
+customer=       duckdb.read_parquet('../data/customer/*.parquet')
+part=           duckdb.read_parquet('../data/part/*.parquet')
 
 # end = timeit.default_timer()
 # print(end - start)
