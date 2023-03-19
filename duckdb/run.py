@@ -6,21 +6,21 @@ from pathlib import Path
 
 con = duckdb.connect(database="my-db.duckdb", read_only=False)
 
-print("Set up a view over the Parquet files")
+# print("Set up a view over the Parquet files")
 
 start = timeit.default_timer()
 
-lineitem=       duckdb.read_parquet('/home/sundy/dataset/tpch30/lineitem/*.parquet')
-orders=         duckdb.read_parquet('/home/sundy/dataset/tpch30/orders/*.parquet')
-partsupp=       duckdb.read_parquet('/home/sundy/dataset/tpch30/partsupp/*.parquet')
-supplier=       duckdb.read_parquet('/home/sundy/dataset/tpch30/supplier/*.parquet')
-nation=         duckdb.read_parquet('/home/sundy/dataset/tpch30/nation/*.parquet')
-region=         duckdb.read_parquet('/home/sundy/dataset/tpch30/region/*.parquet')
-customer=       duckdb.read_parquet('/home/sundy/dataset/tpch30/customer/*.parquet')
-part=           duckdb.read_parquet('/home/sundy/dataset/tpch30/part/*.parquet')
+lineitem=       duckdb.read_parquet('../data/lineitem/*.parquet')
+orders=         duckdb.read_parquet('../data/orders/*.parquet')
+partsupp=       duckdb.read_parquet('../data/partsupp/*.parquet')
+supplier=       duckdb.read_parquet('../data/supplier/*.parquet')
+nation=         duckdb.read_parquet('../data/nation/*.parquet')
+region=         duckdb.read_parquet('../data/region/*.parquet')
+customer=       duckdb.read_parquet('../data/customer/*.parquet')
+part=           duckdb.read_parquet('../data/part/*.parquet')
 
-end = timeit.default_timer()
-print(end - start)
+# end = timeit.default_timer()
+# print(end - start)
 
 sql = Path('tpch.sql').read_text()
 

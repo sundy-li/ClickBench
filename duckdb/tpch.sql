@@ -510,7 +510,6 @@ WHERE
     AND l_shipdate < CAST('1995-10-01' AS date);
 
 
-    
 
 
 
