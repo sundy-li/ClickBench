@@ -11,7 +11,7 @@ for i in `seq 1 $N`; do
     query=`cat sql/q${i}.sql`
     echo -n "["
     for i in $(seq 1 $TRIES); do
-        RES=$(curl -w 'Time: %{time_total}\n' "http://default@localhost:8124" -d "${query}" 2>&1 | grep -P '^Time: ' | sed 's/Time: //')
+        RES=$(curl -w 'Time: %{time_total}\n' "http://default@localhost:8124?database=v2" -d "${query}" 2>&1 | grep -P '^Time: ' | sed 's/Time: //')
         [[ "$?" == "0" ]] && echo -n "${RES}" || echo -n "null"
         [[ "$i" != $TRIES ]] && echo -n ", "
 
