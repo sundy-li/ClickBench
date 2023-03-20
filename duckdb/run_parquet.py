@@ -10,14 +10,24 @@ con = duckdb.connect(database="parquet.duckdb", read_only=False)
 
 start = timeit.default_timer()
 
-lineitem=       duckdb.read_parquet('../data/lineitem/*.parquet')
-orders=         duckdb.read_parquet('../data/orders/*.parquet')
-partsupp=       duckdb.read_parquet('../data/partsupp/*.parquet')
-supplier=       duckdb.read_parquet('../data/supplier/*.parquet')
-nation=         duckdb.read_parquet('../data/nation/*.parquet')
-region=         duckdb.read_parquet('../data/region/*.parquet')
-customer=       duckdb.read_parquet('../data/customer/*.parquet')
-part=           duckdb.read_parquet('../data/part/*.parquet')
+
+# create view lineitem as select * from  read_parquet('../data_30/lineitem/*.parquet');
+# create view orders as select * from    read_parquet('../data_30/orders/*.parquet');
+# create view partsupp as select * from  read_parquet('../data_30/partsupp/*.parquet');
+# create view supplier as select * from  read_parquet('../data_30/supplier/*.parquet');
+# create view nation as select * from    read_parquet('../data_30/nation/*.parquet');
+# create view region as select * from    read_parquet('../data_30/region/*.parquet');
+# create view customer as select * from  read_parquet('../data_30/customer/*.parquet');
+# create view part as select * from      read_parquet('../data_30/part/*.parquet');
+
+lineitem=       duckdb.read_parquet('../data_30/lineitem/*.parquet')
+orders=         duckdb.read_parquet('../data_30/orders/*.parquet')
+partsupp=       duckdb.read_parquet('../data_30/partsupp/*.parquet')
+supplier=       duckdb.read_parquet('../data_30/supplier/*.parquet')
+nation=         duckdb.read_parquet('../data_30/nation/*.parquet')
+region=         duckdb.read_parquet('../data_30/region/*.parquet')
+customer=       duckdb.read_parquet('../data_30/customer/*.parquet')
+part=           duckdb.read_parquet('../data_30/part/*.parquet')
 
 # end = timeit.default_timer()
 # print(end - start)

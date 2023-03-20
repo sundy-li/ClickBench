@@ -10,5 +10,5 @@ for x in range(0, sf) :
   con.sql(f"CALL dbgen(sf={sf} , children ={sf}, step = {x})") 
   for tbl in ['nation','region','customer','supplier','lineitem','orders','partsupp','part'] :
      pathlib.Path(f'./data_{sf}/{tbl}').mkdir(parents=True, exist_ok=True) 
-     con.sql(f"COPY (SELECT * FROM {tbl}) TO './data/{tbl}/{x}.parquet' ")
+     con.sql(f"COPY (SELECT * FROM {tbl}) TO './data_${sf}/{tbl}/{x}.parquet' ")
   con.close()
