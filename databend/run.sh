@@ -1,5 +1,6 @@
 #!/bin/bash
 
+database=$1
 TRIES=3
 QUERY_NUM=1
 
@@ -11,7 +12,7 @@ for i in `seq 1 $N`; do
     query=`cat sql/q${i}.sql`
     echo -n "["
     for i in $(seq 1 $TRIES); do
-        RES=$(curl -w 'Time: %{time_total}\n' "http://default@localhost:8124?enable_bushy_join=1" -d "${query}" 2>&1 | grep -P '^Time: ' | sed 's/Time: //')
+        RES=$(curl -w 'Time: %{time_total}\n' "http://default@localhost:8124?database=${database}" -d "${query}" 2>&1 | grep -P '^Time: ' | sed 's/Time: //')
         [[ "$?" == "0" ]] && echo -n "${RES}" || echo -n "null"
         [[ "$i" != $TRIES ]] && echo -n ", "
 

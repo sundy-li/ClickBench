@@ -1,5 +1,4 @@
-
-select
+explain analyze select
     s_acctbal,
     s_name,
     n_name,

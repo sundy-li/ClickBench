@@ -4,13 +4,15 @@
 MYSQL_CLIENT_CONNECT="mysql -uroot --host 127.0.0.1 --port 3307 default -s"
 options="storage_format = 'native' compression = 'lz4'"
 
+database="$1"
+
 for t in customer lineitem nation orders partsupp part region supplier; do
-    echo "DROP TABLE IF EXISTS $t" | $MYSQL_CLIENT_CONNECT
+    echo "DROP TABLE IF EXISTS $database.$t" | $MYSQL_CLIENT_CONNECT
 done
 
 
 # create tpch tables
-echo "CREATE TABLE IF NOT EXISTS nation
+echo "CREATE TABLE IF NOT EXISTS $database.nation
 (
     n_nationkey  INTEGER not null,
     n_name       STRING not null,
@@ -18,14 +20,14 @@ echo "CREATE TABLE IF NOT EXISTS nation
     n_comment    STRING
 ) CLUSTER BY (n_nationkey) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS region
+echo "CREATE TABLE IF NOT EXISTS $database.region
 (
     r_regionkey  INTEGER not null,
     r_name       STRING not null,
     r_comment    STRING
 ) CLUSTER BY (r_regionkey) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS part
+echo "CREATE TABLE IF NOT EXISTS $database.part
 (
     p_partkey     BIGINT not null,
     p_name        STRING not null,
@@ -38,7 +40,7 @@ echo "CREATE TABLE IF NOT EXISTS part
     p_comment     STRING not null
 ) CLUSTER BY (p_partkey) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS supplier
+echo "CREATE TABLE IF NOT EXISTS $database.supplier
 (
     s_suppkey     BIGINT not null,
     s_name        STRING not null,
@@ -49,7 +51,7 @@ echo "CREATE TABLE IF NOT EXISTS supplier
     s_comment     STRING not null
 ) CLUSTER BY (s_suppkey) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS partsupp
+echo "CREATE TABLE IF NOT EXISTS $database.partsupp
 (
     ps_partkey     BIGINT not null,
     ps_suppkey     BIGINT not null,
@@ -58,7 +60,7 @@ echo "CREATE TABLE IF NOT EXISTS partsupp
     ps_comment     STRING not null
 ) CLUSTER BY (ps_partkey) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS customer
+echo "CREATE TABLE IF NOT EXISTS $database.customer
 (
     c_custkey     BIGINT not null,
     c_name        STRING not null,
@@ -70,7 +72,7 @@ echo "CREATE TABLE IF NOT EXISTS customer
     c_comment     STRING not null
 ) CLUSTER BY (c_custkey) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS orders
+echo "CREATE TABLE IF NOT EXISTS $database.orders
 (
     o_orderkey       BIGINT not null,
     o_custkey        BIGINT not null,
@@ -83,7 +85,7 @@ echo "CREATE TABLE IF NOT EXISTS orders
     o_comment        STRING not null
 ) CLUSTER BY (o_orderkey, o_orderdate) ${options}" | $MYSQL_CLIENT_CONNECT
 
-echo "CREATE TABLE IF NOT EXISTS lineitem
+echo "CREATE TABLE IF NOT EXISTS $database.lineitem
 (
     l_orderkey    BIGINT not null,
     l_partkey     BIGINT not null,
@@ -109,7 +111,7 @@ do
     
     echo $t
     pwd=`pwd`
-    echo "COPY INTO $t FROM 'fs://${pwd}/../data/${t}/' file_format  =  (type = Parquet) pattern = '.*.parquet' " | $MYSQL_CLIENT_CONNECT
+    echo "COPY INTO $database.$t FROM 'fs://${pwd}/../data/${t}/' file_format  =  (type = Parquet) pattern = '.*.parquet' " | $MYSQL_CLIENT_CONNECT
     
-    echo "analyze table $t" |  $MYSQL_CLIENT_CONNECT
+    echo "analyze table $database.$t" |  $MYSQL_CLIENT_CONNECT
 done
