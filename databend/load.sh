@@ -5,6 +5,7 @@ MYSQL_CLIENT_CONNECT="mysql -uroot --host 127.0.0.1 --port 3307 default -s"
 options="storage_format = 'native' compression = 'lz4'"
 
 database="$1"
+sf="$2"
 
 for t in customer lineitem nation orders partsupp part region supplier; do
     echo "DROP TABLE IF EXISTS $database.$t" | $MYSQL_CLIENT_CONNECT
@@ -111,7 +112,7 @@ do
     
     echo $t
     pwd=`pwd`
-    echo "COPY INTO $database.$t FROM 'fs://${pwd}/../data/${t}/' file_format  =  (type = Parquet) pattern = '.*.parquet' " | $MYSQL_CLIENT_CONNECT
+    echo "COPY INTO $database.$t FROM 'fs://${pwd}/../data_${sf}/${t}/' file_format  =  (type = Parquet) pattern = '.*.parquet' " | $MYSQL_CLIENT_CONNECT
     
     echo "analyze table $database.$t" |  $MYSQL_CLIENT_CONNECT
 done
