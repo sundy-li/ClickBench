@@ -4,8 +4,6 @@ import timeit
 import psutil
 from pathlib import Path
 
-con = duckdb.connect(database="data_30.duckdb", read_only=False)
-
 # print("Set up a view over the Parquet files")
 
 start = timeit.default_timer()
@@ -25,11 +23,12 @@ start = timeit.default_timer()
 
 sql = Path('tpch.sql').read_text()
 
-def execute_query(engine, sql_script):
+def execute_query(sql_script):
     sql_arr = sql_script.split(";")
     for index, value in enumerate(sql_arr,start=1):
         if len(value.strip()) > 0:
             for i in range(0, 3):
+                engine = duckdb.connect(database="data_30.duckdb", read_only=False)
                 start = timeit.default_timer()
                 try : 
                     data = engine.execute(value).fetchall()
@@ -40,5 +39,5 @@ def execute_query(engine, sql_script):
                     duration = 0
                 print(duration)
                 
-execute_query(con, sql)
+execute_query(sql)
 
